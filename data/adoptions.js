@@ -10,3 +10,15 @@ async function dataAccess() {
     .collection(constants.ADOPTIONS);
 }
 
+async function getAllAdoptions(pageSize, page) {
+  const collection = await dataAccess();
+  const adoptions = await collection
+    .find({})
+    .limit(pageSize)
+    .skip(pageSize * page)
+    .toArray();
+
+  return adoptions;
+}
+
+module.exports = { getAllAdoptions }
