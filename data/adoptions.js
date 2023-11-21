@@ -46,9 +46,29 @@ async function getAdoption(id) {
   return adoption;
 }
 
+async function aprooveAdoption(id) {
+  if (!ObjectId.isValid(id)) {
+    throw new Error('La solicitud no pudo aprobarse');
+  }
+  const collection = await dataAccess();
+  const result = await collection.findOneAndUpdate(
+    { _id: new ObjectId(id) },
+    { $set: { status: 'aprooved' } },
+    { returnDocument: 'after' }
+  );
+  console.log('Resultado de actualización: ', result);
+
+  if (result.matchedCount === 0) {
+    throw new Error('Solicitud rechazada');
+  }
+
+  return result;
+}
+
 module.exports = { 
   getAllAdoptions, 
   addAdoption, 
   getAwaitingAdoptions,
-  getAdoption
+  getAdoption,
+  aprooveAdoption
  }

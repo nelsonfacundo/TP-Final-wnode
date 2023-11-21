@@ -35,9 +35,14 @@ async function getAdoption(id) {
   return adoptionsData.getAdoption(id);
 }
 
+async function aprooveAdoption(id) {
+  return adoptionsData.aprooveAdoption(id);
+}
+
 module.exports = { 
   getAllAdoptions, 
   addAdoption, 
   getAwaitingAdoptions,
-  getAdoption
+  getAdoption,
+  aprooveAdoption
  };

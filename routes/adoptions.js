@@ -46,5 +46,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//Aprobar adopción
+/* http://localhost:3000/api/adoptions/aproove-adoption/65525e0a36c94bed0118e3e7 */
+router.put('/aproove-adoption/:id', async (req, res) => {
+  try {
+    const result = await controller.aprooveAdoption(req.params.id);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send('PUT fail: ' + error);
+  }
+});
 
 module.exports = router;
