@@ -10,6 +10,19 @@ router.get('/', async (req, res) => {
   res.json(await controller.getAllAdoptions(pageSize, page));
 });
 
+/*POST http://localhost:3000/api/adoptions/add-adoption */
+router.post('/add-adoption', async (req, res) => {
+  try {
+    const result = await controller.addAdoption(
+      req.body.petId,
+      req.body.adopterId
+    );
+    res.send(result);
+  } catch (error) {
+    res.status(400).send(error);
+    console.error(error.message);
+  }
+});
 
 
 module.exports = router;

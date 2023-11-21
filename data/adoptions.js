@@ -21,4 +21,11 @@ async function getAllAdoptions(pageSize, page) {
   return adoptions;
 }
 
-module.exports = { getAllAdoptions }
+async function addAdoption(adoption) {
+  const collection = await dataAccess();
+
+  const result = await collection.insertOne(adoption);
+  return result;
+}
+
+module.exports = { getAllAdoptions, addAdoption }
