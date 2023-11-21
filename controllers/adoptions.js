@@ -31,6 +31,13 @@ async function getAwaitingAdoptions() {
   return adoptionsData.getAwaitingAdoptions();
 }
 
+async function getAdoption(id) {
+  return adoptionsData.getAdoption(id);
+}
 
-
-module.exports = { getAllAdoptions, addAdoption, getAwaitingAdoptions };
+module.exports = { 
+  getAllAdoptions, 
+  addAdoption, 
+  getAwaitingAdoptions,
+  getAdoption
+ };

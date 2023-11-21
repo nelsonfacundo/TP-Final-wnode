@@ -35,4 +35,20 @@ async function getAwaitingAdoptions() {
   return result;
 }
 
-module.exports = { getAllAdoptions, addAdoption, getAwaitingAdoptions }
+async function getAdoption(id) {
+  const collection = await dataAccess();
+  const adoption = await collection.findOne({ _id: new ObjectId(id) });
+
+  if (!adoption) {
+    throw new Error('Error al buscar adopción');
+  }
+
+  return adoption;
+}
+
+module.exports = { 
+  getAllAdoptions, 
+  addAdoption, 
+  getAwaitingAdoptions,
+  getAdoption
+ }

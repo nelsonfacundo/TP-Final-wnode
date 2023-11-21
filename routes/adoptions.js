@@ -35,4 +35,16 @@ router.get('/awaiting-adoptions', async (req, res) => {
   }
 });
 
+//Obtener adopción por id
+/* http://localhost:3000/api/adoptions/65525e0a36c94bed0118e3e7 */
+router.get('/:id', async (req, res) => {
+  try {
+    res.json(await controller.getAdoption(req.params.id));
+  } catch (error) {
+    res.status(404).send('Adopción no existente');
+    console.error(error);
+  }
+});
+
+
 module.exports = router;
