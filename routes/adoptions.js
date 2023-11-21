@@ -24,5 +24,15 @@ router.post('/add-adoption', async (req, res) => {
   }
 });
 
+//Ver adopciones pendientes
+/* http://localhost:3000/api/adoptions/awaiting-adoptions */
+router.get('/awaiting-adoptions', async (req, res) => {
+  try {
+    res.json(await controller.getAwaitingAdoptions());
+  } catch (error) {
+    res.status(400).send(error);
+    console.error(error);
+  }
+});
 
 module.exports = router;

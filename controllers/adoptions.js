@@ -27,5 +27,10 @@ async function addAdoption(petId, userId) {
   return adoptionsData.addAdoption(newAdoption);
 }
 
+async function getAwaitingAdoptions() {
+  return adoptionsData.getAwaitingAdoptions();
+}
 
-module.exports = { getAllAdoptions, addAdoption };
+
+
+module.exports = { getAllAdoptions, addAdoption, getAwaitingAdoptions };

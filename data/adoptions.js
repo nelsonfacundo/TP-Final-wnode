@@ -28,4 +28,11 @@ async function addAdoption(adoption) {
   return result;
 }
 
-module.exports = { getAllAdoptions, addAdoption }
+async function getAwaitingAdoptions() {
+  const collection = await dataAccess();
+  const result = await collection.find({ status: 'awaiting' }).toArray();
+
+  return result;
+}
+
+module.exports = { getAllAdoptions, addAdoption, getAwaitingAdoptions }
