@@ -56,7 +56,7 @@ async function getPetsByProvinceCordoba(){
 async function addPet(req, res) {
     const { name, specie, race, gender, age, description, province } = req.body;
     if (name && specie && race && gender && age && description && province) {
-      const newPet = { name, specie, race, gender, age, description, province };
+      const newPet = { name, specie, race, gender, age, description, province, status: 'available' };
       const addPet = await pets.addPet(newPet);
       res.json(addPet);
     } else {
