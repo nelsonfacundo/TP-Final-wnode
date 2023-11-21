@@ -65,10 +65,25 @@ async function aprooveAdoption(id) {
   return result;
 }
 
+//Quitar solicitud
+async function deleteAdoption(id) {
+  const collection = await dataAccess();
+  const filter = { _id: new ObjectId(id) };
+
+  if (!result || typeof result !== 'object') {
+    throw new Error('Error al intentar eliminar adopción.');
+  }
+  const result = await collection.findOneAndDelete(filter);
+
+  return result;
+}
+
+
 module.exports = { 
   getAllAdoptions, 
   addAdoption, 
   getAwaitingAdoptions,
   getAdoption,
-  aprooveAdoption
+  aprooveAdoption,
+  deleteAdoption
  }

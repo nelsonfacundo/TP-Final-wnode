@@ -57,4 +57,15 @@ router.put('/aproove-adoption/:id', async (req, res) => {
   }
 });
 
+//quitar adopción
+router.delete("/delete-adoption/:id", async (req, res) => {
+  try {
+    await controller.deleteAdoption(req.params.id);
+    res.send("Operación exitosa");
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+
 module.exports = router;

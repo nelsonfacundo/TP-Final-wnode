@@ -39,10 +39,15 @@ async function aprooveAdoption(id) {
   return adoptionsData.aprooveAdoption(id);
 }
 
+async function deleteAdoption(id) {
+  return adoptionsData.getAdoption(id);
+}
+
 module.exports = { 
   getAllAdoptions, 
   addAdoption, 
   getAwaitingAdoptions,
   getAdoption,
-  aprooveAdoption
+  aprooveAdoption,
+  deleteAdoption
  };
