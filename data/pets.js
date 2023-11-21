@@ -168,7 +168,7 @@ async function getPetsByProvinceCordoba(){
 // Función para crear una mascota
 async function addPet(pet) {
   const connectiondb = await conn.getConnection();
-  const result = connectiondb
+  const result = await connectiondb
     .db(DATABASE)
     .collection(PETS)
     .insertOne(pet);
