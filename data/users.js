@@ -2,12 +2,17 @@ const conn = require("./conn");
 const bcrypt = require("bcrypt");
 const constants = require("../lib/constants");
 
-async function addUser(user) {
+async function dataAccess() {
   const connectiondb = await conn.getConnection();
-  user.password = await bcrypt.hash(user.password, 8);
-  const result = connectiondb
+  return await connectiondb
     .db(constants.DATABASE)
-    .collection(constants.USERS)
+    .collection(constants.USERS);
+}
+
+async function addUser(user) {
+  user.password = await bcrypt.hash(user.password, 8);
+  const collection = await dataAccess();
+  const result = collection
     .insertOne(user);
   return result;
 }
