@@ -1,6 +1,8 @@
 const conn = require("./conn");
 const bcrypt = require("bcrypt");
+const jwt =  require("jsonwebtoken");
 const constants = require("../lib/constants");
+const errors = require("../lib/errors");
 
 async function dataAccess() {
   const connectiondb = await conn.getConnection();
@@ -17,4 +19,35 @@ async function addUser(user) {
   return result;
 }
 
-module.exports = { addUser };
+async function findByCredentials(email, password) {
+  const collection = await dataAccess();
+
+  const user = await collection
+    .findOne({ email: email });
+  if (!user) {
+    throw new Error(errors.REQUEST_ERROR);
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error(errors.REQUEST_ERROR);
+  }
+  return user;
+}
+
+function generateAuthToken(user) {
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roll: user.roll
+    }, process.env.CLAVE_SECRETA
+  );
+  return token;
+}
+
+
+module.exports = { addUser, findByCredentials, generateAuthToken };
