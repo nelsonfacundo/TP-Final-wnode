@@ -1,18 +1,23 @@
 const Joi = require("joi");
 
 const userSchema = Joi.object({
-  nombre: Joi.string().required(),
-  apellido: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+	nombre: Joi.string().required(),
+	apellido: Joi.string().required(),
+	email: Joi.string().email().required(),
+	password: Joi.string().min(6).required(),
 });
 
 function validateUser(user) {
-  const result = userSchema.validate(user);
-  if (result.error) {
-    throw new Error(result.error.details[0].message);
-  }
-  return result.value;
+	const result = userSchema.validate(user, { abortEarly: false });
+
+	if (result.error) {
+		const validationErrors = result.error.details.map(
+			(detail) => detail.message
+		);
+		throw new Error(validationErrors.join(", "));
+	}
+
+	return result.value;
 }
 
 module.exports = { validateUser };
