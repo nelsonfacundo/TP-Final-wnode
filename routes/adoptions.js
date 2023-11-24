@@ -17,7 +17,6 @@ router.post('/add-adoption', async (req, res) => {
       req.body.petId,
       req.body.adopterId
     );
-    console.log(result);
     res.send(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
