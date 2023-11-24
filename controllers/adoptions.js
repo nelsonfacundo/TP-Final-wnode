@@ -43,11 +43,16 @@ async function deleteAdoption(id) {
   return adoptionsData.getAdoption(id);
 }
 
+async function updateAdoption(id, updatedAdoption) {
+  return adoptionsData.updateAdoption(id, updatedAdoption);
+}
+
 module.exports = { 
   getAllAdoptions, 
   addAdoption, 
   getAwaitingAdoptions,
   getAdoption,
   aprooveAdoption,
-  deleteAdoption
+  deleteAdoption,
+  updateAdoption
  };
