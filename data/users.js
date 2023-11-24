@@ -4,11 +4,9 @@ const jwt =  require("jsonwebtoken");
 const constants = require("../lib/constants");
 const errors = require("../lib/errors");
 
+
 async function dataAccess() {
-  const connectiondb = await conn.getConnection();
-  return await connectiondb
-    .db(constants.DATABASE)
-    .collection(constants.USERS);
+  return await conn.dataAccess(constants.DATABASE, constants.USERS);
 }
 
 async function addUser(user) {
@@ -19,6 +17,7 @@ async function addUser(user) {
   return result;
 }
 
+
 async function findByCredentials(email, password) {
   const collection = await dataAccess();
 
@@ -28,13 +27,14 @@ async function findByCredentials(email, password) {
     throw new Error(errors.REQUEST_ERROR);
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
 
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error(errors.REQUEST_ERROR);
   }
   return user;
 }
+
 
 function generateAuthToken(user) {
   const token = jwt.sign(
