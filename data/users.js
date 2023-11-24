@@ -43,7 +43,7 @@ function generateAuthToken(user) {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      roll: user.roll
+      roll: user.roll // TODO: queremos cambiar a rol?
     }, process.env.CLAVE_SECRETA
   );
   return token;

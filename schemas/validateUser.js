@@ -4,7 +4,7 @@ const userSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   age: Joi.number().max(120).required(),
-  roll: Joi.string().required(),
+  roll: Joi.string().required(), // TODO: queremos cambiar a rol?
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
