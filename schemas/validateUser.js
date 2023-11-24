@@ -10,13 +10,12 @@ const userSchema = Joi.object({
 });
 
 function validateUser(user) {
+    // TODO: tal vez queremos chequear que no este repetido el email
 	const result = userSchema.validate(user, { abortEarly: false });
 
 	if (result.error) {
-		const validationErrors = result.error.details.map(
-			(detail) => detail.message
-		);
-		throw new Error(validationErrors.join(", "));
+    const errorMessages = result.error.details.map((error) => error.message);
+    throw new Error(errorMessages);
 	}
 
 	return result.value;
