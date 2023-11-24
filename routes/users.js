@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
     const newUser = schemaUser.validateUser(req.body);
     const result = await controller.addUser(newUser);
     if (result.acknowledged) {
-      res.send(message.SUCCESSFULL_USER_CREATED);
+      res.send(message.SUCCESSFULL_USER_CREATED + " con id: " + result.insertedId);
     } else {
       res.status(500).send(errors.REQUEST_ERROR);
     }
