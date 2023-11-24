@@ -54,50 +54,62 @@ async function getPetsByProvinceCordoba() {
 
 // Controlador para crear una mascota
 async function addPet(req, res) {
-	const { name, specie, race, gender, age, description, province } = req.body;
-	if (name && specie && race && gender && age && description && province) {
-		const newPet = {
-			name,
-			specie,
-			race,
-			gender,
-			age,
-			description,
-			province,
-			status: "available",
-		};
-		const addPet = await pets.addPet(newPet);
-		res.json(addPet);
-	} else {
-		res.status(400).json({ error: "Bad Request" });
+	try {
+		const { name, specie, race, gender, age, description, province } = req.body;
+		if (name && specie && race && gender && age && description && province) {
+			const newPet = {
+				name,
+				specie,
+				race,
+				gender,
+				age,
+				description,
+				province,
+				status: "available",
+			};
+			return pets.addPet(newPet);
+		}
+	} catch (error) {
+		throw new Error("Bad Request: Missing required fields" + error);
 	}
 }
 
 // Controlador para actualizar una mascota por su ID
 async function updatePet(req, res) {
-	const petId = req.params.id;
-	const { name, specie, race, gender, age, description, province } = req.body;
-	if (name && specie && race && gender && age && description && province) {
-		const pet = { name, specie, race, gender, age, description, province };
-		const updatedPet = await pets.updatePet(petId, pet);
-		if (updatedPet) {
-			res.json(updatedPet);
+	try {
+		const petId = req.params.id;
+		const { name, specie, race, gender, age, description, province } = req.body;
+		if (name && specie && race && gender && age && description && province) {
+			const pet = { name, specie, race, gender, age, description, province };
+			const updatedPet = await pets.updatePet(petId, pet);
+			if (updatedPet) {
+				return updatedPet;
+			}
 		} else {
-			res.status(404).json({ error: "Pet not found" });
+			return null;
 		}
-	} else {
-		res.status(400).json({ error: "Bad Request" });
+	} catch (error) {
+		console.error(error);
+		throw error;
 	}
 }
 
 // Controlador para eliminar una mascota por su ID
 async function deletePet(req, res) {
-	const petId = req.params.id;
-	const deletedPet = await pets.deletePet(petId);
-	if (deletedPet) {
-		res.json(deletedPet);
-	} else {
-		res.status(404).json({ error: "Pet not found" });
+	try {
+		const petId = req.params.id;
+		const petToDelete = await getPet(petId);
+		if (petToDelete) {
+			const deletedPet = await pets.deletePet(petId);
+			if (deletedPet) {
+				return res.json(deletedPet);
+			}
+		} else{
+      throw new Error("Pet doesn't exist");
+    }
+	} catch (error) {
+		console.error(error);
+		throw error;
 	}
 }
 
