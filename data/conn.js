@@ -13,4 +13,11 @@ async function getConnection() {
   return instance;
 }
 
-module.exports = { getConnection };
+async function dataAccess(database, theCollection) {
+  const connectiondb = await getConnection();
+  return await connectiondb
+    .db(database)
+    .collection(theCollection);
+}
+
+module.exports = { dataAccess };

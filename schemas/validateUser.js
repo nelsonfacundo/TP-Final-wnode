@@ -1,10 +1,12 @@
 const Joi = require("joi");
 
 const userSchema = Joi.object({
-	nombre: Joi.string().required(),
-	apellido: Joi.string().required(),
-	email: Joi.string().email().required(),
-	password: Joi.string().min(6).required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  age: Joi.number().max(120).required(),
+  roll: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
 });
 
 function validateUser(user) {

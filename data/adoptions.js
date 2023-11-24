@@ -2,13 +2,11 @@ const conn = require('./conn');
 const { ObjectId } = require('mongodb');
 const constants = require('../lib/constants.js');
 
-async function dataAccess() {
-  const connectiondb = await conn.getConnection();
 
-  return await connectiondb
-    .db(constants.ADOPTIONS)
-    .collection(constants.ADOPTIONS);
+async function dataAccess() {
+  return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
 }
+
 
 async function getAllAdoptions(pageSize, page) {
   const collection = await dataAccess();

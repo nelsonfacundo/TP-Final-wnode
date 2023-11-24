@@ -19,4 +19,19 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// POST login user
+router.post("/login", async (req, res) => {
+  try {
+    const user = await controller.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await controller.generateAuthToken(user);
+    res.send({ token });
+  } catch (error) {
+    res.status(401).send(error.message);
+    console.log(error);
+  }
+});
+
 module.exports = router;
