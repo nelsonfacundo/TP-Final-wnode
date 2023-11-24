@@ -2,13 +2,11 @@ const conn = require('./conn');
 const { ObjectId } = require('mongodb');
 const constants = require('../lib/constants.js');
 
-async function dataAccess() {
-  const connectiondb = await conn.getConnection();
 
-  return await connectiondb
-    .db(constants.ADOPTIONS)
-    .collection(constants.ADOPTIONS);
+async function dataAccess() {
+  return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
 }
+
 
 async function getAllAdoptions(pageSize, page) {
   const collection = await dataAccess();
@@ -46,7 +44,7 @@ async function getAdoption(id) {
   return adoption;
 }
 
-async function aprooveAdoption(id) {
+async function aprooveAdoption(id) { // TODO: tal vez queremos modificar a approve
   if (!ObjectId.isValid(id)) {
     throw new Error('La solicitud no pudo aprobarse');
   }
@@ -78,6 +76,18 @@ async function deleteAdoption(id) {
   return result;
 }
 
+async function updateAdoption(id, adoption) {
+  const collection = await dataAccess();
+  
+  const filter = { _id: new ObjectId(id) };
+  const update = { $set: adoption };
+
+  const result = await collection.findOneAndUpdate(filter, update, { returnOriginal: false });
+
+  return result.value; 
+}
+
+
 
 module.exports = { 
   getAllAdoptions, 
@@ -85,5 +95,6 @@ module.exports = {
   getAwaitingAdoptions,
   getAdoption,
   aprooveAdoption,
-  deleteAdoption
+  deleteAdoption,
+  updateAdoption
  }

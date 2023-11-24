@@ -19,7 +19,7 @@ router.post('/add-adoption', async (req, res) => {
     );
     res.send(result);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({ error: error.message });
     console.error(error.message);
   }
 });
@@ -67,5 +67,14 @@ router.delete("/delete-adoption/:id", async (req, res) => {
   }
 });
 
+router.put('/update-adoption/:id', async (req, res) => {
+  try {
+    const result = await controller.updateAdoption(req.params.id, req.body);
+    res.send(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.error(error.message);
+  }
+});
 
 module.exports = router;

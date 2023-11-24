@@ -7,15 +7,18 @@ const petsSchema = Joi.object({
   gender: Joi.string().required(),
   age: Joi.number().required(),
   description: Joi.string().required(),
-  province: Joi.string().required(),  
-  status: Joi.string().valid("available", "adopted").optional()
+  province: Joi.string().required(),
+  status: Joi.string().valid("available", "adopted").optional(),
 });
 
 function validatePets(pet) {
-  const result = petsSchema.validate(pet);
+  const result = petsSchema.validate(pet, { abortEarly: false });
+
   if (result.error) {
-    throw new Error(result.error.details[0].message);
+    const errorMessages = result.error.details.map((error) => error.message);
+    throw new Error(errorMessages);
   }
+
   return result.value;
 }
 

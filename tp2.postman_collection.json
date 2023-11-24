@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "5d082532-78ca-4b44-8567-0cc6a362fc80",
+		"name": "ort",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16463882"
+	},
+	"item": [
+		{
+			"name": "tp2",
+			"item": [
+				{
+					"name": "usuario",
+					"item": [
+						{
+							"name": "registrar usuario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"m@test.com\",\r\n  \"firstName\": \"m\",\r\n  \"lastName\": \"r\",\r\n  \"roll\": \"administrador\",\r\n  \"age\": 25,\r\n  \"password\": \"testtest\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"m@test.com\",\r\n  \"password\": \"testtest\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pets",
+					"item": [
+						{
+							"name": "addPet",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/addPet",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										"addPet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 123,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/updatePet/65611e2bfe0b7d8167bf4701",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										"updatePet",
+										"65611e2bfe0b7d8167bf4701"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletePet",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 332,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/deletePet/65611f2b6f789f402c67eefa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										"deletePet",
+										"65611f2b6f789f402c67eefa"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "adopcion",
+					"item": [
+						{
+							"name": "add-adoption",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"petId\": \"656123d88d33bd0db645129c\",\r\n    \"adopterId\": \"656123dc8d33bd0db645129d\",\r\n    \"status\": \"awaiting\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/adoptions/add-adoption",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"adoptions",
+										"add-adoption"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"petId\": \"656123d88d33bd0db645129c\",\r\n    \"adopterId\": \"656123dc8d33bd0db645129d\",\r\n    \"status\": \"awaiting\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/adoptions/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"adoptions",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

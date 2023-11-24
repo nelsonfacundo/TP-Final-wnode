@@ -10,12 +10,27 @@ router.post("/register", async (req, res) => {
     const newUser = schemaUser.validateUser(req.body);
     const result = await controller.addUser(newUser);
     if (result.acknowledged) {
-      res.send(message.SUCCESSFULL_USER_CREATED);
+      res.send(message.SUCCESSFULL_USER_CREATED + " con id: " + result.insertedId);
     } else {
       res.status(500).send(errors.REQUEST_ERROR);
     }
   } catch (error) {
     res.status(400).send(error.message);
+  }
+});
+
+// POST login user
+router.post("/login", async (req, res) => {
+  try {
+    const user = await controller.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await controller.generateAuthToken(user);
+    res.send({ token });
+  } catch (error) {
+    res.status(401).send(error.message);
+    console.log(error);
   }
 });
 

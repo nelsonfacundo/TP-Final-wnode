@@ -4,4 +4,14 @@ async function addUser(user) {
   return users.addUser(user);
 }
 
-module.exports = { addUser };
+
+async function findByCredentials(email, password) {
+  return users.findByCredentials(email, password);
+}
+
+async function generateAuthToken(user) {
+  return users.generateAuthToken(user);
+}
+
+
+module.exports = { addUser, findByCredentials, generateAuthToken };
