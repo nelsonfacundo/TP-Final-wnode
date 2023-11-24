@@ -20,4 +20,4 @@ async function dataAccess(database, theCollection) {
     .collection(theCollection);
 }
 
-module.exports = { getConnection, dataAccess };
+module.exports = { dataAccess };
