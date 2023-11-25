@@ -23,9 +23,10 @@ router.get("/adoptables/", async (req, res) => {
 		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
 		const page = req.query.page ? parseInt(req.query.page) : 0;
 
-		const pets = await controller.getAdoptables(pageSize, page);
-		return res.json(pets);
-	} catch (error) {
+		const { pets, totalPets } = await controller.getAdoptables(pageSize, page);
+    
+		return res.json({ pets, totalPets });
+		} catch (error) {
 		console.error(error);
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
