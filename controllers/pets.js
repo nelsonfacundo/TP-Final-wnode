@@ -4,6 +4,10 @@ async function getAllPets(pageSize, page) {
 	return pets.getAllPets(pageSize, page);
 }
 
+async function getAdoptables(pageSize, page) {
+	return pets.getAdoptables(pageSize, page);
+}
+
 async function getPet(id) {
 	return pets.getPet(id);
 }
@@ -130,4 +134,5 @@ module.exports = {
 	addPet,
 	updatePet,
 	deletePet,
+	getAdoptables,
 };

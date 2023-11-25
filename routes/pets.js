@@ -18,6 +18,19 @@ router.get("/", async (req, res) => {
 	}
 });
 
+router.get("/adoptables/", async (req, res) => {
+	try {
+		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
+		const page = req.query.page ? parseInt(req.query.page) : 0;
+
+		const pets = await controller.getAdoptables(pageSize, page);
+		return res.json(pets);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 router.get("/searchPetsBySpecie", async (req, res) => {
 	try {
 		const specie = req.query.specie;
