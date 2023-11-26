@@ -36,30 +36,31 @@ async function addAdoption(petId, adopterId) {
 			throw new Error("Usuario no encontrado");
 		} else {
 			const newAdoption = {
-				pet: pet,
-				adopter: adopter,
+				_id: pet._id,
+				name: pet.name,
+				specie: pet.specie,
+				race: pet.race,
+				gender: pet.gender,
+				age: pet.age,
+				description: pet.description,
+				province: pet.province,
 				status: "awaiting",
+				adopter: adopterId,
 			};
 
-			const collection = await dataAccess();
+			const petAdoption = await petsData.updatePet(petId, newAdoption);
 
-			const filter = { _id: new ObjectId(petId) };
-			const update = {
-				$set: {
-					adopter: newAdoption.adopter._id,
-					status: newAdoption.status,
-				},
-			};
-			const result = await collection.findOneAndUpdate(filter, update, {
-				returnDocument: "after",
-			});
-			if (!result.value) {
+			if (!petAdoption.value) {
 				const notUpdatedError = new Error("Pet not updated");
-				notUpdatedError.status = 404; 
+				notUpdatedError.status = 404;
 				throw notUpdatedError;
+			} else {
+				return {
+					status: 200,
+					message: "Adopción realizada",
+					pet: petAdoption.value,
+				};
 			}
-
-			return result;
 		}
 	} catch (error) {
 		throw new Error("No se pudo realizar la adopción: " + error);
