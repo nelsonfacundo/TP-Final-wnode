@@ -10,10 +10,12 @@ async function dataAccess() {
 // http://localhost:3000/api/pets/
 async function getAllPets(pageSize, page){
     const collection = await dataAccess();
+    const totalPets = await collection.countDocuments();
+
     const pets = await collection
                         .find({}).limit(pageSize).skip(pageSize * page)
                         .toArray();    
-    return pets;
+    return {totalPets, pets};
 }
 
 // http://localhost:3000/api/pets/adoptables/
