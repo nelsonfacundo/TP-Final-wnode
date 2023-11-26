@@ -4,12 +4,12 @@ async function addAdoption(petId, adopterId) {
 	return adoptionsData.addAdoption(petId, adopterId);
 }
 
-async function aprooveAdoption(id) {
-	return adoptionsData.aprooveAdoption(id);
+async function approveAdoption(id) {
+	return adoptionsData.approveAdoption(id);
 }
 
 async function deleteAdoption(id) {
-	return adoptionsData.getAdoption(id);
+	return adoptionsData.deleteAdoption(id);
 }
 
 async function rejectAdoption(id) {
@@ -18,7 +18,7 @@ async function rejectAdoption(id) {
 
 module.exports = {
 	addAdoption,
-	aprooveAdoption,
+	approveAdoption,
 	deleteAdoption,
 	rejectAdoption,
 };

@@ -17,34 +17,35 @@ router.post('/add-adoption', async (req, res) => {
 });
 
 //Aprobar adopción
-/* http://localhost:3000/api/adoptions/aproove-adoption/65525e0a36c94bed0118e3e7 */
-router.put('/aproove-adoption/:id', async (req, res) => {
+/* http://localhost:3000/api/adoptions/approve-adoption/65525e0a36c94bed0118e3e7 */
+router.put('/approve-adoption/:id', async (req, res) => {
   try {
-    const result = await controller.aprooveAdoption(req.params.id);
+    const result = await controller.approveAdoption(req.params.id);
     res.send(result);
   } catch (error) {
     res.status(500).send('PUT fail: ' + error);
   }
 });
 
-//quitar adopción
-router.delete("/delete-adoption/:id", async (req, res) => {
+//rechazar adopción
+router.delete("/reject-adoption/:id", async (req, res) => {
   try {
-    await controller.deleteAdoption(req.params.id);
-    res.send("Operación exitosa");
+    const result = await controller.rejectAdoption(req.params.id);
+    res.send(result);
   } catch (error) {
-    res.send(error.message);
+    res.status(500).send('delete fail: ' + error);
   }
 });
 
 //quitar adopción
-router.delete("/reject-adoption/:id", async (req, res) => {
+router.delete("/delete-adoption/:id", async (req, res) => {
   try {
-    await controller.rejectAdoption(req.params.id);
-    res.send("Operación exitosa");
+    const result = await controller.deleteAdoption(req.params.id);
+    res.send(result);
   } catch (error) {
-    res.send(error.message);
+    res.status(500).send('delete fail: ' + error);
   }
+ 
 });
 
 module.exports = router;

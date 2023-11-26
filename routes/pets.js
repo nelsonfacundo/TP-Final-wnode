@@ -33,50 +33,6 @@ router.get("/adoptables/", async (req, res) => {
 	}
 });
 
-router.get("/searchPetsBySpecie", async (req, res) => {
-	try {
-		const specie = req.query.specie;
-		const pets = await controller.getPetsBySpecie(specie);
-		return res.json(pets);
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
-router.get("/searchPetsByRace", async (req, res) => {
-	try {
-		const race = req.query.race;
-		const pets = await controller.getPetsByRace(race);
-		return res.json(pets);
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
-router.get("/searchPetsByFemaleGender", async (req, res) => {
-	try {
-		const pets = await controller.getPetsByFemaleGender();
-		return res.json(pets);
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
-router.get("/searchPetsByMaleGender", async (req, res) => {
-	try {
-		const pets = await controller.getPetsByMaleGender();
-		return res.json(pets);
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
-// Add similar error handling for other routes...
-
 router.post("/addPet", async (req, res) => {
 	try {
 		schemaPets.validatePets(req.body);

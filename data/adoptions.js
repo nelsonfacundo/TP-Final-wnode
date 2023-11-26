@@ -47,7 +47,7 @@ async function addAdoption(petId, adopterId) {
 				return {
 					status: 200,
 					message: "Adopción realizada",
-					pet: petAdoption.value,
+					pet: newAdoption,
 				};
 			}
 		}
@@ -56,46 +56,154 @@ async function addAdoption(petId, adopterId) {
 	}
 }
 
-async function aprooveAdoption(id) {
+async function approveAdoption(id) {
 	// TODO: tal vez queremos modificar a approve
-	if (!ObjectId.isValid(id)) {
-		throw new Error("La solicitud no pudo aprobarse");
-	}
-	const collection = await dataAccess();
-	const result = await collection.findOneAndUpdate(
-		{ _id: new ObjectId(id) },
-		{ $set: { status: "aprooved" } },
-		{ returnDocument: "after" }
-	);
-	console.log("Resultado de actualización: ", result);
+	try {
+		if (!id) {
+			throw new Error("id es necesario");
+		} else if (!ObjectId.isValid(id)) {
+			throw new Error("El id no es valido");
+		}
 
-	if (result.matchedCount === 0) {
-		throw new Error("Solicitud rechazada");
-	}
+		const pet = await petsData.getPet(id);
 
-	return result;
+		if (!pet) {
+			throw new Error("la mascota no existe");
+		} else if (pet.status == "adopted" ) {
+			throw new Error("la adopcion ya fue aprobada");
+		} else if (pet.status != "awaiting") {
+			throw new Error("la mascota no tiene una adopcion para aprobar");
+		} else {
+			const approveAdoption = {
+				_id: pet._id,
+				name: pet.name,
+				specie: pet.specie,
+				race: pet.race,
+				gender: pet.gender,
+				age: pet.age,
+				description: pet.description,
+				province: pet.province,
+				status: "adopted",
+				adopter: pet.adopter,
+			};
+
+			const petAdoption = await petsData.updatePet(id, approveAdoption);
+
+			if (!petAdoption.value) {
+				const notUpdatedError = new Error("Pet not updated");
+				notUpdatedError.status = 404;
+				throw notUpdatedError;
+			} else {
+				return {
+					status: 200,
+					message: "Adopción aprobada",
+					pet: approveAdoption,
+				};
+			}
+		}
+	} catch (error) {
+		throw new Error("No se pudo realizar la adopción: " + error);
+	}
 }
 
 //Quitar solicitud
 async function rejectAdoption(id) {
-	return this.deleteAdoption(id);
+	try {
+		if (!id) {
+			throw new Error("id es necesario");
+		} else if (!ObjectId.isValid(id)) {
+			throw new Error("El id no es valido");
+		}
+
+		const pet = await petsData.getPet(id);
+
+		if (!pet) {
+			throw new Error("la mascota no existe");
+		} else if (pet.status == "rejected" ) {
+			throw new Error("la adopcion ya fue rechazada");
+		}  else {
+			const rejectedAdoption = {
+				_id: pet._id,
+				name: pet.name,
+				specie: pet.specie,
+				race: pet.race,
+				gender: pet.gender,
+				age: pet.age,
+				description: pet.description,
+				province: pet.province,
+				status: "rejected",
+				adopter: pet.adopter,
+			};
+
+			const petAdoption = await petsData.updatePet(id, rejectedAdoption);
+
+			if (!petAdoption.value) {
+				const notUpdatedError = new Error("Pet not updated");
+				notUpdatedError.status = 404;
+				throw notUpdatedError;
+			} else {
+				return {
+					status: 200,
+					message: "Adopción rechazada",
+					pet: rejectedAdoption,
+				};
+			}
+		}
+	} catch (error) {
+		throw new Error("No se pudo realizar la adopción: " + error);
+	}
 }
 
 async function deleteAdoption(id) {
-	const collection = await dataAccess();
-	const filter = { _id: new ObjectId(id) };
+  try {
+		if (!id) {
+			throw new Error("id es necesario");
+		} else if (!ObjectId.isValid(id)) {
+			throw new Error("El id no es valido");
+		}
 
-	if (!result || typeof result !== "object") {
-		throw new Error("Error al intentar eliminar adopción.");
+		const pet = await petsData.getPet(id);
+
+		if (!pet) {
+			throw new Error("la mascota no existe");
+		} else if (pet.status == "available" ) {
+			throw new Error("la adopcion ya fue borrada");
+		}  else {
+			const rejectedAdoption = {
+				_id: pet._id,
+				name: pet.name,
+				specie: pet.specie,
+				race: pet.race,
+				gender: pet.gender,
+				age: pet.age,
+				description: pet.description,
+				province: pet.province,
+				status: "available",
+				adopter: pet.adopter,
+			};
+
+			const petAdoption = await petsData.updatePet(id, rejectedAdoption);
+
+			if (!petAdoption.value) {
+				const notUpdatedError = new Error("Pet not updated");
+				notUpdatedError.status = 404;
+				throw notUpdatedError;
+			} else {
+				return {
+					status: 200,
+					message: "Adopción reseteada",
+					pet: rejectedAdoption,
+				};
+			}
+		}
+	} catch (error) {
+		throw new Error("No se pudo realizar la adopción: " + error);
 	}
-	const result = await collection.findOneAndDelete(filter);
-
-	return result;
 }
 
 module.exports = {
 	addAdoption,
-	aprooveAdoption,
-  rejectAdoption,
-	deleteAdoption
+	approveAdoption,
+	rejectAdoption,
+	deleteAdoption,
 };

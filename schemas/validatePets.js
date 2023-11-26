@@ -8,7 +8,8 @@ const petsSchema = Joi.object({
   age: Joi.number().required(),
   description: Joi.string().required(),
   province: Joi.string().required(),
-  status: Joi.string().valid("available", "adopted").optional(),
+  status: Joi.string().valid("available", "awaiting", "adopted", "rejected").optional(),
+  adopter: Joi.string().optional()
 });
 
 function validatePets(pet) {
