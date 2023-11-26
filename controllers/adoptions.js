@@ -8,28 +8,7 @@ async function getAllAdoptions(pageSize, page) {
 }
 
 async function addAdoption(petId, adopterId) {
-  const errorMsg = 'La adopción no es posible';
-
-  if (!petId || !adopterId) {
-    throw new Error( 'petId y adopterId son necesarios' );
-  }
-
-  const pet = await petsData.getPet(petId);
-
-  if (!pet || pet.status == 'pending approval') {
-    throw new Error(errorMsg);
-  }
-  const adopter = await usersData.getUser(adopterId);
-  if (!adopter) {
-    throw new Error(errorMsg);
-  }
-  const newAdoption = {
-    pet: pet,
-    adopter: adopter,
-    status: 'awaiting',
-  };
-
-  return adoptionsData.addAdoption(newAdoption);
+  return adoptionsData.addAdoption(petId, adopterId);  
 }
 
 async function getAwaitingAdoptions() {
