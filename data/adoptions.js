@@ -19,31 +19,6 @@ async function getAllAdoptions(pageSize, page) {
   return adoptions;
 }
 
-async function addAdoption(adoption) {
-  const collection = await dataAccess();
-
-  const result = await collection.insertOne(adoption);
-  return result;
-}
-
-async function getAwaitingAdoptions() {
-  const collection = await dataAccess();
-  const result = await collection.find({ status: 'awaiting' }).toArray();
-
-  return result;
-}
-
-async function getAdoption(id) {
-  const collection = await dataAccess();
-  const adoption = await collection.findOne({ _id: new ObjectId(id) });
-  
-  if (!adoption) {
-    throw new Error('Error al buscar adopción');
-  }
-  
-  return adoption;
-}
-
 async function addAdoption(petId, adopterId) {
   const errorMsg = 'La adopción no es posible';
 
@@ -66,9 +41,39 @@ async function addAdoption(petId, adopterId) {
     status: 'awaiting',
   };
 
-  return adoptionsData.addAdoption(newAdoption);
+  const collection = await dataAccess();
+
+  const filter = { _id:new ObjectId(petId) }; 
+  const update = {
+    $set: {
+      adopter: newAdoption.adopter,
+      status: newAdoption.status,
+    },
+  };
+  const result = collection
+                       .findOneAndUpdate(filter, update, { returnOriginal: false });
+
+
+  return result;
 }
+
+async function getAwaitingAdoptions() {
+  const collection = await dataAccess();
+  const result = await collection.find({ status: 'awaiting' }).toArray();
+
+  return result;
+}
+
+async function getAdoption(id) {
+  const collection = await dataAccess();
+  const adoption = await collection.findOne({ _id: new ObjectId(id) });
   
+  if (!adoption) {
+    throw new Error('Error al buscar adopción');
+  }
+  
+  return adoption;
+}
 
 async function aprooveAdoption(id) { // TODO: tal vez queremos modificar a approve
   if (!ObjectId.isValid(id)) {
