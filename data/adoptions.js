@@ -20,41 +20,50 @@ async function getAllAdoptions(pageSize, page) {
 }
 
 async function addAdoption(petId, adopterId) {
-	const errorMsg = "La adopción no es posible";
+	try {
+		if (!petId || !adopterId) {
+			throw new Error("petId y adopterId son necesarios");
+		}
 
-	if (!petId || !adopterId) {
-		throw new Error("petId y adopterId son necesarios");
+		const pet = await petsData.getPet(petId);
+		const adopter = await usersData.getUser(adopterId);
+
+		if (!pet) {
+			throw new Error("la mascota no existe");
+		} else if (pet.status != "available") {
+			throw new Error("la mascota no esta disponible");
+		} else if (!adopter) {
+			throw new Error("Usuario no encontrado");
+		} else {
+			const newAdoption = {
+				pet: pet,
+				adopter: adopter,
+				status: "awaiting",
+			};
+
+			const collection = await dataAccess();
+
+			const filter = { _id: new ObjectId(petId) };
+			const update = {
+				$set: {
+					adopter: newAdoption.adopter._id,
+					status: newAdoption.status,
+				},
+			};
+			const result = await collection.findOneAndUpdate(filter, update, {
+				returnDocument: "after",
+			});
+			if (!result.value) {
+				const notUpdatedError = new Error("Pet not updated");
+				notUpdatedError.status = 404; 
+				throw notUpdatedError;
+			}
+
+			return result;
+		}
+	} catch (error) {
+		throw new Error("No se pudo realizar la adopción: " + error);
 	}
-
-	const pet = await petsData.getPet(petId);
-
-	if (!pet || pet.status == "pending approval") {
-		throw new Error(errorMsg);
-	}
-	const adopter = await usersData.getUser(adopterId);
-	if (!adopter) {
-		throw new Error(errorMsg);
-	}
-	const newAdoption = {
-		pet: pet,
-		adopter: adopter,
-		status: "awaiting",
-	};
-
-	const collection = await dataAccess();
-
-	const filter = { _id: new ObjectId(petId) };
-	const update = {
-		$set: {
-			adopter: newAdoption.adopter,
-			status: newAdoption.status,
-		},
-	};
-	const result = collection.findOneAndUpdate(filter, update, {
-		returnOriginal: false,
-	});
-
-	return result;
 }
 
 async function getAwaitingAdoptions() {
