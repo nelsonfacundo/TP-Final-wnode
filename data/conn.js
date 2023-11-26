@@ -1,21 +1,32 @@
 require('dotenv').config();
-const mongoclient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
 const uri = process.env.MONGODB;
-const client = new mongoclient(uri);
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let instance = null;
 
 async function getConnection() {
-  if (instance == null) {
-    instance = await client.connect();
+  try {
+    if (instance == null) {
+      instance = await client.connect();
+      console.log('Connectado a la db con exito');
+    }
+    return instance;
+  } catch (error) {
+    console.error('Error Connectado a la db:', error);
+    throw error; 
   }
-  return instance;
 }
 
 async function dataAccess(database, theCollection) {
-  const connectiondb = await getConnection();
-  return await connectiondb.db(database).collection(theCollection);
+  try {
+    const connectiondb = await getConnection();
+    return connectiondb.db(database).collection(theCollection);
+  } catch (error) {
+    console.error('Error accessing data:', error);
+    throw error;
+  }
 }
 
 module.exports = { dataAccess };

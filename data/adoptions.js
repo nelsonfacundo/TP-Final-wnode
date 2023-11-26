@@ -1,132 +1,132 @@
-const conn = require('./conn');
-const { ObjectId } = require('mongodb');
-const constants = require('../lib/constants.js');
-const petsData = require('../data/pets.js');
-const usersData = require('../data/users.js');
+const conn = require("./conn");
+const { ObjectId } = require("mongodb");
+const constants = require("../lib/constants.js");
+const petsData = require("../data/pets.js");
+const usersData = require("../data/users.js");
 
 async function dataAccess() {
-  return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
+	return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
 }
 
-
 async function getAllAdoptions(pageSize, page) {
-  const collection = await dataAccess();
-  const adoptions = await collection
-    .find({})
-    .limit(pageSize)
-    .skip(pageSize * page)
-    .toArray();
+	const collection = await dataAccess();
+	const adoptions = await collection
+		.find({})
+		.limit(pageSize)
+		.skip(pageSize * page)
+		.toArray();
 
-  return adoptions;
+	return adoptions;
 }
 
 async function addAdoption(petId, adopterId) {
-  const errorMsg = 'La adopción no es posible';
+	const errorMsg = "La adopción no es posible";
 
-  if (!petId || !adopterId) {
-    throw new Error( 'petId y adopterId son necesarios' );
-  }
+	if (!petId || !adopterId) {
+		throw new Error("petId y adopterId son necesarios");
+	}
 
-  const pet = await petsData.getPet(petId);
+	const pet = await petsData.getPet(petId);
 
-  if (!pet || pet.status == 'pending approval') {
-    throw new Error(errorMsg);
-  }
-  const adopter = await usersData.getUser(adopterId);
-  if (!adopter) {
-    throw new Error(errorMsg);
-  }
-  const newAdoption = {
-    pet: pet,
-    adopter: adopter,
-    status: 'awaiting',
-  };
+	if (!pet || pet.status == "pending approval") {
+		throw new Error(errorMsg);
+	}
+	const adopter = await usersData.getUser(adopterId);
+	if (!adopter) {
+		throw new Error(errorMsg);
+	}
+	const newAdoption = {
+		pet: pet,
+		adopter: adopter,
+		status: "awaiting",
+	};
 
-  const collection = await dataAccess();
+	const collection = await dataAccess();
 
-  const filter = { _id:new ObjectId(petId) }; 
-  const update = {
-    $set: {
-      adopter: newAdoption.adopter,
-      status: newAdoption.status,
-    },
-  };
-  const result = collection
-                       .findOneAndUpdate(filter, update, { returnOriginal: false });
+	const filter = { _id: new ObjectId(petId) };
+	const update = {
+		$set: {
+			adopter: newAdoption.adopter,
+			status: newAdoption.status,
+		},
+	};
+	const result = collection.findOneAndUpdate(filter, update, {
+		returnOriginal: false,
+	});
 
-
-  return result;
+	return result;
 }
 
 async function getAwaitingAdoptions() {
-  const collection = await dataAccess();
-  const result = await collection.find({ status: 'awaiting' }).toArray();
+	const collection = await dataAccess();
+	const result = await collection.find({ status: "awaiting" }).toArray();
 
-  return result;
+	return result;
 }
 
 async function getAdoption(id) {
-  const collection = await dataAccess();
-  const adoption = await collection.findOne({ _id: new ObjectId(id) });
-  
-  if (!adoption) {
-    throw new Error('Error al buscar adopción');
-  }
-  
-  return adoption;
+	const collection = await dataAccess();
+	const adoption = await collection.findOne({ _id: new ObjectId(id) });
+
+	if (!adoption) {
+		throw new Error("Error al buscar adopción");
+	}
+
+	return adoption;
 }
 
-async function aprooveAdoption(id) { // TODO: tal vez queremos modificar a approve
-  if (!ObjectId.isValid(id)) {
-    throw new Error('La solicitud no pudo aprobarse');
-  }
-  const collection = await dataAccess();
-  const result = await collection.findOneAndUpdate(
-    { _id: new ObjectId(id) },
-    { $set: { status: 'aprooved' } },
-    { returnDocument: 'after' }
-  );
-  console.log('Resultado de actualización: ', result);
+async function aprooveAdoption(id) {
+	// TODO: tal vez queremos modificar a approve
+	if (!ObjectId.isValid(id)) {
+		throw new Error("La solicitud no pudo aprobarse");
+	}
+	const collection = await dataAccess();
+	const result = await collection.findOneAndUpdate(
+		{ _id: new ObjectId(id) },
+		{ $set: { status: "aprooved" } },
+		{ returnDocument: "after" }
+	);
+	console.log("Resultado de actualización: ", result);
 
-  if (result.matchedCount === 0) {
-    throw new Error('Solicitud rechazada');
-  }
+	if (result.matchedCount === 0) {
+		throw new Error("Solicitud rechazada");
+	}
 
-  return result;
+	return result;
 }
 
 //Quitar solicitud
 async function deleteAdoption(id) {
-  const collection = await dataAccess();
-  const filter = { _id: new ObjectId(id) };
+	const collection = await dataAccess();
+	const filter = { _id: new ObjectId(id) };
 
-  if (!result || typeof result !== 'object') {
-    throw new Error('Error al intentar eliminar adopción.');
-  }
-  const result = await collection.findOneAndDelete(filter);
+	if (!result || typeof result !== "object") {
+		throw new Error("Error al intentar eliminar adopción.");
+	}
+	const result = await collection.findOneAndDelete(filter);
 
-  return result;
+	return result;
 }
 
 async function updateAdoption(id, adoption) {
-  const collection = await dataAccess();
-  
-  const filter = { _id: new ObjectId(id) };
-  const update = { $set: adoption };
+	const collection = await dataAccess();
 
-  const result = await collection.findOneAndUpdate(filter, update, { returnOriginal: false });
+	const filter = { _id: new ObjectId(id) };
+	const update = { $set: adoption };
 
-  return result.value; 
+	const result = await collection.findOneAndUpdate(filter, update, {
+		returnOriginal: false,
+	});
+
+	return result.value;
 }
 
-
-
-module.exports = { 
-  getAllAdoptions, 
-  addAdoption, 
-  getAwaitingAdoptions,
-  getAdoption,
-  aprooveAdoption,
-  deleteAdoption,
-  updateAdoption
- }
+module.exports = {
+	getAllAdoptions,
+	addAdoption,
+	getAwaitingAdoptions,
+	getAdoption,
+	aprooveAdoption,
+	deleteAdoption,
+	updateAdoption,
+};
