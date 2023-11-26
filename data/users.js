@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt =  require("jsonwebtoken");
 const constants = require("../lib/constants");
 const errors = require("../lib/errors");
-
+const { ObjectId } = require('mongodb');
 
 async function dataAccess() {
   return await conn.dataAccess(constants.DATABASE, constants.USERS);
@@ -35,6 +35,12 @@ async function findByCredentials(email, password) {
   return user;
 }
 
+async function getUser(id){
+  const collection = await dataAccess();
+  const user = await collection
+                      .findOne({_id:new ObjectId(id)});    
+  return user;
+}
 
 function generateAuthToken(user) {
   const token = jwt.sign(
@@ -43,11 +49,11 @@ function generateAuthToken(user) {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      roll: user.roll
+      roll: user.roll // TODO: queremos cambiar a rol?
     }, process.env.CLAVE_SECRETA
   );
   return token;
 }
 
 
-module.exports = { addUser, findByCredentials, generateAuthToken };
+module.exports = { addUser, findByCredentials, generateAuthToken,getUser };

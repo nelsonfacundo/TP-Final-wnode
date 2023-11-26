@@ -1,112 +1,138 @@
-const pets = require('../data/pets');
+const pets = require("../data/pets");
 
-async function getAllPets(pageSize, page){    
-    return pets.getAllPets(pageSize, page);
+async function getAllPets(pageSize, page) {
+	return pets.getAllPets(pageSize, page);
 }
 
-async function getPet(id){
-    return pets.getPet(id);
+async function getAdoptables(pageSize, page) {
+	return pets.getAdoptables(pageSize, page);
 }
 
-async function getPetsBySpecie(specie){    
-    return pets.getPetsBySpecie(specie);
+async function getPet(id) {
+	return pets.getPet(id);
 }
 
-async function getPetsByRace(race){    
-    return pets.getPetsByRace(race);
+async function getPetsBySpecie(specie) {
+	return pets.getPetsBySpecie(specie);
 }
 
-async function getPetsByFemaleGender(){
-    return pets.getPetsByFemaleGender();
+async function getPetsByRace(race) {
+	return pets.getPetsByRace(race);
 }
 
-async function getPetsByMaleGender(){
-    return pets.getPetsByMaleGender();
+async function getPetsByFemaleGender() {
+	return pets.getPetsByFemaleGender();
 }
 
-async function getPetsByAge0to5years(){
-    return pets.getPetsByAge0to5years();
+async function getPetsByMaleGender() {
+	return pets.getPetsByMaleGender();
 }
 
-async function getPetsByAge6to10years(){
-    return pets.getPetsByAge6to10years();
+async function getPetsByAge0to5years() {
+	return pets.getPetsByAge0to5years();
 }
 
-async function getPetsByAge11to15years(){
-    return pets.getPetsByAge11to15years();
+async function getPetsByAge6to10years() {
+	return pets.getPetsByAge6to10years();
 }
 
-async function getPetsByAge16AndMore(){
-    return pets.getPetsByAge16AndMore();
+async function getPetsByAge11to15years() {
+	return pets.getPetsByAge11to15years();
 }
 
-async function getPetsByProvinceBuenosAires(){    
-    return pets.getPetsByProvinceBuenosAires();
+async function getPetsByAge16AndMore() {
+	return pets.getPetsByAge16AndMore();
 }
 
-async function getPetsByProvinceSantaFe(){    
-    return pets.getPetsByProvinceSantaFe();
+async function getPetsByProvinceBuenosAires() {
+	return pets.getPetsByProvinceBuenosAires();
 }
 
-async function getPetsByProvinceCordoba(){    
-    return pets.getPetsByProvinceCordoba();
+async function getPetsByProvinceSantaFe() {
+	return pets.getPetsByProvinceSantaFe();
+}
+
+async function getPetsByProvinceCordoba() {
+	return pets.getPetsByProvinceCordoba();
 }
 
 // Controlador para crear una mascota
 async function addPet(req, res) {
-    const { name, specie, race, gender, age, description, province } = req.body;
-    if (name && specie && race && gender && age && description && province) {
-      const newPet = { name, specie, race, gender, age, description, province, status: 'available' };
-      const addPet = await pets.addPet(newPet);
-      res.json(addPet);
-    } else {
-      res.status(400).json({ error: "Bad Request" });
-    }
-  }
+	try {
+		const { name, specie, race, gender, age, description, province } = req.body;
+		if (name && specie && race && gender && age && description && province) {
+			const newPet = {
+				name,
+				specie,
+				race,
+				gender,
+				age,
+				description,
+				province,
+				status: "available",
+			};
+			return pets.addPet(newPet);
+		}
+	} catch (error) {
+		throw new Error("Bad Request: Missing required fields" + error);
+	}
+}
 
 // Controlador para actualizar una mascota por su ID
 async function updatePet(req, res) {
-    const petId = req.params.id;
-    const { name, specie, race, gender, age, description, province } = req.body;
-    if (name && specie && race && gender && age && description && province) {
-      const pet = { name, specie, race, gender, age, description, province };
-      const updatedPet = await pets.updatePet(petId, pet);
-      if (updatedPet) {
-        res.json(updatedPet);
-      } else {
-        res.status(404).json({ error: "Pet not found" });
-      }
-    } else {
-      res.status(400).json({ error: "Bad Request" });
-    }
-  }
+	try {
+		const petId = req.params.id;
+		const { name, specie, race, gender, age, description, province } = req.body;
+		if (name && specie && race && gender && age && description && province) {
+			const pet = { name, specie, race, gender, age, description, province };
+			const updatedPet = await pets.updatePet(petId, pet);
+			if (updatedPet) {
+				return updatedPet;
+			}
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
 
 // Controlador para eliminar una mascota por su ID
 async function deletePet(req, res) {
-    const petId = req.params.id;
-    const deletedPet = await pets.deletePet(petId);
-    if (deletedPet) {
-      res.json(deletedPet);
-    } else {
-      res.status(404).json({ error: "Pet not found" });
+	try {
+		const petId = req.params.id;
+		const petToDelete = await getPet(petId);
+		if (petToDelete) {
+			const deletedPet = await pets.deletePet(petId);
+			if (deletedPet) {
+				return res.json(deletedPet);
+			}
+		} else{
+      throw new Error("Pet doesn't exist");
     }
-  }
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
 
 module.exports = {
-    getAllPets,
-    getPet,
-    getPetsBySpecie,
-    getPetsByRace,
-    getPetsByAge0to5years,
-    getPetsByAge6to10years,
-    getPetsByAge11to15years,
-    getPetsByAge16AndMore,
-    getPetsByProvinceBuenosAires,
-    getPetsByProvinceSantaFe,
-    getPetsByProvinceCordoba,
-    getPetsByFemaleGender,
-    getPetsByMaleGender,
-    addPet,
-    updatePet,
-    deletePet
+	getAllPets,
+	getPet,
+	getPetsBySpecie,
+	getPetsByRace,
+	getPetsByAge0to5years,
+	getPetsByAge6to10years,
+	getPetsByAge11to15years,
+	getPetsByAge16AndMore,
+	getPetsByProvinceBuenosAires,
+	getPetsByProvinceSantaFe,
+	getPetsByProvinceCordoba,
+	getPetsByFemaleGender,
+	getPetsByMaleGender,
+	addPet,
+	updatePet,
+	deletePet,
+	getAdoptables,
 };

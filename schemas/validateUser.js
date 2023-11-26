@@ -4,17 +4,21 @@ const userSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   age: Joi.number().max(120).required(),
-  roll: Joi.string().required(),
+  roll: Joi.string().required(), // TODO: queremos cambiar a rol?
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
 
 function validateUser(user) {
-  const result = userSchema.validate(user);
-  if (result.error) {
-    throw new Error(result.error.details[0].message);
-  }
-  return result.value;
+    // TODO: tal vez queremos chequear que no este repetido el email
+	const result = userSchema.validate(user, { abortEarly: false });
+
+	if (result.error) {
+    const errorMessages = result.error.details.map((error) => error.message);
+    throw new Error(errorMessages);
+	}
+
+	return result.value;
 }
 
 module.exports = { validateUser };
