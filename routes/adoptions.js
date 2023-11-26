@@ -2,14 +2,6 @@ var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/adoptions.js');
 
-/* GET adoptions listing. */
-router.get('/', async (req, res) => {
-  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
-  const page = req.query.page ? parseInt(req.query.page) : 0;
-
-  res.json(await controller.getAllAdoptions(pageSize, page));
-});
-
 /*POST http://localhost:3000/api/adoptions/add-adoption */
 router.post('/add-adoption', async (req, res) => {
   try {
@@ -21,28 +13,6 @@ router.post('/add-adoption', async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.error(error.message);
-  }
-});
-
-//Ver adopciones pendientes
-/* http://localhost:3000/api/adoptions/awaiting-adoptions */
-router.get('/awaiting-adoptions', async (req, res) => {
-  try {
-    res.json(await controller.getAwaitingAdoptions());
-  } catch (error) {
-    res.status(400).send(error);
-    console.error(error);
-  }
-});
-
-//Obtener adopción por id
-/* http://localhost:3000/api/adoptions/65525e0a36c94bed0118e3e7 */
-router.get('/:id', async (req, res) => {
-  try {
-    res.json(await controller.getAdoption(req.params.id));
-  } catch (error) {
-    res.status(404).send('Adopción no existente');
-    console.error(error);
   }
 });
 
@@ -67,13 +37,13 @@ router.delete("/delete-adoption/:id", async (req, res) => {
   }
 });
 
-router.put('/update-adoption/:id', async (req, res) => {
+//quitar adopción
+router.delete("/reject-adoption/:id", async (req, res) => {
   try {
-    const result = await controller.updateAdoption(req.params.id, req.body);
-    res.send(result);
+    await controller.rejectAdoption(req.params.id);
+    res.send("Operación exitosa");
   } catch (error) {
-    res.status(500).json({ error: error.message });
-    console.error(error.message);
+    res.send(error.message);
   }
 });
 

@@ -1,39 +1,24 @@
-const adoptionsData = require('../data/adoptions.js');
-
-async function getAllAdoptions(pageSize, page) {
-  return adoptionsData.getAllAdoptions(pageSize, page);
-}
+const adoptionsData = require("../data/adoptions.js");
 
 async function addAdoption(petId, adopterId) {
-  return adoptionsData.addAdoption(petId, adopterId);  
-}
-
-async function getAwaitingAdoptions() {
-  return adoptionsData.getAwaitingAdoptions();
-}
-
-async function getAdoption(id) {
-  return adoptionsData.getAdoption(id);
+	return adoptionsData.addAdoption(petId, adopterId);
 }
 
 async function aprooveAdoption(id) {
-  return adoptionsData.aprooveAdoption(id);
+	return adoptionsData.aprooveAdoption(id);
 }
 
 async function deleteAdoption(id) {
-  return adoptionsData.getAdoption(id);
+	return adoptionsData.getAdoption(id);
 }
 
-async function updateAdoption(id, updatedAdoption) {
-  return adoptionsData.updateAdoption(id, updatedAdoption);
+async function rejectAdoption(id) {
+	return adoptionsData.rejectAdoption(id);
 }
 
-module.exports = { 
-  getAllAdoptions, 
-  addAdoption, 
-  getAwaitingAdoptions,
-  getAdoption,
-  aprooveAdoption,
-  deleteAdoption,
-  updateAdoption
- };
+module.exports = {
+	addAdoption,
+	aprooveAdoption,
+	deleteAdoption,
+	rejectAdoption,
+};
