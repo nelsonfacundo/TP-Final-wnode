@@ -1,7 +1,4 @@
 const adoptionsData = require('../data/adoptions.js');
-const petsData = require('../data/pets.js');
-const usersData = require('../data/users.js');
-
 
 async function getAllAdoptions(pageSize, page) {
   return adoptionsData.getAllAdoptions(pageSize, page);

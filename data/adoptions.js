@@ -1,7 +1,8 @@
 const conn = require('./conn');
 const { ObjectId } = require('mongodb');
 const constants = require('../lib/constants.js');
-
+const petsData = require('../data/pets.js');
+const usersData = require('../data/users.js');
 
 async function dataAccess() {
   return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
