@@ -33,6 +33,20 @@ router.get("/adoptables/", async (req, res) => {
 	}
 });
 
+router.get("/adopciones/", async (req, res) => {
+	try {
+		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
+		const page = req.query.page ? parseInt(req.query.page) : 0;
+
+		const { pets, totalPets } = await controller.getAdopciones(pageSize, page);
+    
+		return res.json({ pets, totalPets });
+		} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 router.post("/addPet", async (req, res) => {
 	try {
 		schemaPets.validatePets(req.body);
