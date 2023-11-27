@@ -78,6 +78,105 @@
 					"name": "pets",
 					"item": [
 						{
+							"name": "pets",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pet",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "adoptables",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/pets/adoptables",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"pets",
+										"adoptables"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "addPet",
 							"request": {
 								"method": "POST",
@@ -181,7 +280,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"petId\": \"656123d88d33bd0db645129c\",\r\n    \"adopterId\": \"656123dc8d33bd0db645129d\",\r\n    \"status\": \"awaiting\"\r\n  }",
+									"raw": "{\r\n    \"petId\": \"656280990217afbaa252c816\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -199,6 +298,99 @@
 										"api",
 										"adoptions",
 										"add-adoption"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "approve-adoption",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/adoptions/approve-adoption/656385dd7c60fd14866160df",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"adoptions",
+										"approve-adoption",
+										"656385dd7c60fd14866160df"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reject-adoption",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/adoptions/reject-adoption/656385dd7c60fd14866160df",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"adoptions",
+										"reject-adoption",
+										"656385dd7c60fd14866160df"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-adoption",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/adoptions/delete-adoption/656385dd7c60fd14866160df",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"adoptions",
+										"delete-adoption",
+										"656385dd7c60fd14866160df"
 									]
 								}
 							},
