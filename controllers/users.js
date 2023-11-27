@@ -1,5 +1,9 @@
 const users = require("../data/users");
 
+async function getAllUsers(pageSize, page) {
+	return users.getAllUsers(pageSize, page);
+}
+
 async function addUser(user) {
   return users.addUser(user);
 }
@@ -14,4 +18,4 @@ async function generateAuthToken(user) {
 }
 
 
-module.exports = { addUser, findByCredentials, generateAuthToken };
+module.exports = { addUser, findByCredentials, generateAuthToken, getAllUsers };

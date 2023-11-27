@@ -9,6 +9,20 @@ async function dataAccess() {
   return await conn.dataAccess(constants.DATABASE, constants.USERS);
 }
 
+
+// http://localhost:3000/api/pets/
+async function getAllUsers(pageSize, page) {
+	const collection = await dataAccess();
+	const totalUsers = await collection.countDocuments();
+
+	const users = await collection
+		.find({})
+		.limit(pageSize)
+		.skip(pageSize * page)
+		.toArray();
+	return { totalUsers, users };
+}
+
 async function addUser(user) {
   user.password = await bcrypt.hash(user.password, 8);
   const collection = await dataAccess();
@@ -56,4 +70,4 @@ function generateAuthToken(user) {
 }
 
 
-module.exports = { addUser, findByCredentials, generateAuthToken,getUser };
+module.exports = { addUser, findByCredentials, generateAuthToken,getUser, getAllUsers };
