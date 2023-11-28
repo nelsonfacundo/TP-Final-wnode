@@ -7,6 +7,9 @@ async function getAllPets(pageSize, page) {
 async function getAdoptables(pageSize, page) {
 	return pets.getAdoptables(pageSize, page);
 }
+async function getAdopciones(pageSize, page) {
+	return pets.getAdopciones(pageSize, page);
+}
 
 async function getPet(id) {
 	return pets.getPet(id);
@@ -135,4 +138,5 @@ module.exports = {
 	updatePet,
 	deletePet,
 	getAdoptables,
+	getAdopciones
 };

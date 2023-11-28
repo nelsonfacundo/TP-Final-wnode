@@ -32,6 +32,19 @@ async function getAdoptables(pageSize, page) {
 	return { totalPets, pets };
 }
 
+// http://localhost:3000/api/pets/adopciones/
+async function getAdopciones(pageSize, page) {
+	const collection = await dataAccess();
+	const totalPets = await collection.countDocuments({ status: "available" });
+
+	const pets = await collection
+		.find({ status: { $ne: "available" } })
+		.limit(pageSize)
+		.skip(pageSize * page)
+		.toArray();
+	return { totalPets, pets };
+}
+
 // http://localhost:3000/api/pets/654d0accb9a1d6ef179b2668
 async function getPet(id) {
 	const collection = await dataAccess();
@@ -77,4 +90,5 @@ module.exports = {
 	updatePet,
 	deletePet,
 	getAdoptables,
+	getAdopciones
 };
