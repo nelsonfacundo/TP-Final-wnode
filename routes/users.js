@@ -6,17 +6,17 @@ const message = require("../lib/messages");
 const errors = require("../lib/errors");
 
 router.get("/", async (req, res) => {
-	try {
-		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
-		const page = req.query.page ? parseInt(req.query.page) : 0;
+  try {
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
+    const page = req.query.page ? parseInt(req.query.page) : 0;
 
-		const { users, totalUsers } = await controller.getAllUsers(pageSize, page);
+    const { users, totalUsers } = await controller.getAllUsers(pageSize, page);
 
-		return res.json({ users, totalUsers });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
+    return res.json({ users, totalUsers });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.post("/register", async (req, res) => {
@@ -24,7 +24,9 @@ router.post("/register", async (req, res) => {
     const newUser = schemaUser.validateUser(req.body);
     const result = await controller.addUser(newUser);
     if (result.acknowledged) {
-      res.send(message.SUCCESSFULL_USER_CREATED + " con id: " + result.insertedId);
+      res.send(
+        message.SUCCESSFULL_USER_CREATED + " con id: " + result.insertedId
+      );
     } else {
       res.status(500).send(errors.REQUEST_ERROR);
     }
