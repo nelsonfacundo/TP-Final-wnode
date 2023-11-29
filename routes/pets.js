@@ -25,9 +25,9 @@ router.get("/adoptables/", async (req, res) => {
 		const page = req.query.page ? parseInt(req.query.page) : 0;
 
 		const { pets, totalPets } = await controller.getAdoptables(pageSize, page);
-    
+
 		return res.json({ pets, totalPets });
-		} catch (error) {
+	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
@@ -39,9 +39,9 @@ router.get("/adopciones/", async (req, res) => {
 		const page = req.query.page ? parseInt(req.query.page) : 0;
 
 		const { pets, totalPets } = await controller.getAdopciones(pageSize, page);
-    
+
 		return res.json({ pets, totalPets });
-		} catch (error) {
+	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
@@ -67,24 +67,24 @@ router.put("/updatePet/:id", async (req, res) => {
 	try {
 		schemaPets.validatePets(req.body);
 		const result = await controller.updatePet(req, res);
-		if (result.lastErrorObject && result.lastErrorObject.n > 0) {			
+		if (result.lastErrorObject && result.lastErrorObject.n > 0) {
 			return res.send(message.SUCCESSFULL_PET_UPLOAD);
 		} else {
-			return  res.status(500).send(errors.REQUEST_ERROR);
+			return res.status(500).send(errors.REQUEST_ERROR);
 		}
 	} catch (error) {
-    console.error(error);
+		console.error(error);
 		return res.status(500).send({ error: error.message });
 	}
 });
 
 router.delete("/deletePet/:id", async (req, res) => {
-  // TODO: no estamos mostrando el mensaje de exito cuando se borra una mascota
+	// TODO: no estamos mostrando el mensaje de exito cuando se borra una mascota
 	try {
-		const result = await controller.deletePet(req, res);    
+		const result = await controller.deletePet(req, res);
 		if (result.lastErrorObject && result.lastErrorObject.n > 0) {
 			return res.status(200).send(message.SUCCESSFULL_PET_DELETE);
-		} 
+		}
 	} catch (error) {
 		console.error(error);
 		return res.status(400).json({ error: error.message });

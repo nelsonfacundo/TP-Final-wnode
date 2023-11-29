@@ -13,6 +13,7 @@ async function getAllPets(pageSize, page) {
 
 	const pets = await collection
 		.find({})
+		.sort({ _id: -1 }) 
 		.limit(pageSize)
 		.skip(pageSize * page)
 		.toArray();
