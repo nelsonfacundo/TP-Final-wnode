@@ -90,4 +90,5 @@ module.exports = {
 	addPet,
 	updatePet,
 	deletePet,
+	getAdoptables
 };
