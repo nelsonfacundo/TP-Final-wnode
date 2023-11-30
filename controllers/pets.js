@@ -8,50 +8,6 @@ async function getPet(id) {
 	return pets.getPet(id);
 }
 
-async function getPetsBySpecie(specie) {
-	return pets.getPetsBySpecie(specie);
-}
-
-async function getPetsByRace(race) {
-	return pets.getPetsByRace(race);
-}
-
-async function getPetsByFemaleGender() {
-	return pets.getPetsByFemaleGender();
-}
-
-async function getPetsByMaleGender() {
-	return pets.getPetsByMaleGender();
-}
-
-async function getPetsByAge0to5years() {
-	return pets.getPetsByAge0to5years();
-}
-
-async function getPetsByAge6to10years() {
-	return pets.getPetsByAge6to10years();
-}
-
-async function getPetsByAge11to15years() {
-	return pets.getPetsByAge11to15years();
-}
-
-async function getPetsByAge16AndMore() {
-	return pets.getPetsByAge16AndMore();
-}
-
-async function getPetsByProvinceBuenosAires() {
-	return pets.getPetsByProvinceBuenosAires();
-}
-
-async function getPetsByProvinceSantaFe() {
-	return pets.getPetsByProvinceSantaFe();
-}
-
-async function getPetsByProvinceCordoba() {
-	return pets.getPetsByProvinceCordoba();
-}
-
 // Controlador para crear una mascota
 async function addPet(req, res) {
 	try {
