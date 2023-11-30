@@ -27,6 +27,7 @@ async function getAdoptables(pageSize, page) {
 
 	const pets = await collection
 		.find({ status: "available" })
+		.sort({ _id: -1 })
 		.limit(pageSize)
 		.skip(pageSize * page)
 		.toArray();
@@ -40,6 +41,7 @@ async function getAdopciones(pageSize, page) {
 
 	const pets = await collection
 		.find({ status: { $ne: "available" } })
+		.sort({ _id: -1 })
 		.limit(pageSize)
 		.skip(pageSize * page)
 		.toArray();
@@ -90,5 +92,6 @@ module.exports = {
 	addPet,
 	updatePet,
 	deletePet,
-	getAdoptables
+	getAdoptables,
+	getAdopciones
 };
