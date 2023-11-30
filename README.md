@@ -4,11 +4,11 @@ Trabajo practico integrador de las materias TP2  y PNT2
 
 💻 Topics
 Integrated with:
-[] bcrypt
-[] express
-[] joi
-[] mongodb
-[] http-errors
+- bcrypt
+- express
+- joi
+- mongodb
+- http-errors
 
 
 🚀 Install the project
