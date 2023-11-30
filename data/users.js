@@ -57,7 +57,7 @@ async function getUserByEmail(email) {
   return !!user;
 }
 
-async function getUser(id) {
+async function  getUser(id) {
   const collection = await dataAccess();
   const user = await collection.findOne({ _id: new ObjectId(id) });
   return user;
