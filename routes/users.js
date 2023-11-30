@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
 		const userId = req.params.id;
 		const user = await controller.getUser(userId);
 		if (user) {
-			return res.json(pet);
+			return res.json(user);
 		} else {
 			return res.status(404).json({ error: "Pet not found" });
 		}
