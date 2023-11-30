@@ -56,7 +56,7 @@ async function getUserByEmail(email) {
   const user = await collection.findOne({ email: email });
   return !!user;
 }
-
+// http://localhost:5000/api/users/6568e766143e765fd1577345
 async function getUser(id) {
   const collection = await dataAccess();
   const user = await collection.findOne({ _id: new ObjectId(id) });
