@@ -59,7 +59,8 @@ async function addPet(pet) {
 	const collection = await dataAccess();
 	const result = await collection.insertOne(pet);
 	return result;
-}
+  }
+  
 
 // http://localhost:3000/api/pets/updatePet/654d24c88350cd054198ccc3
 // Función para crear una mascota

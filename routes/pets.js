@@ -49,19 +49,19 @@ router.get("/adopciones/", async (req, res) => {
 
 router.post("/addPet", async (req, res) => {
 	try {
-		schemaPets.validatePets(req.body);
-		const result = await controller.addPet(req, res);
-		if (result.acknowledged) {
-			return res.send(
-				message.SUCCESSFULL_PET_ADDED + " con id: " + result.insertedId
-			);
-		} else {
-			return res.status(500).send(errors.REQUEST_ERROR);
-		}
+	  schemaPets.validatePets(req.body);
+	  const result = await controller.addPet(req, res);
+	  
+	  if (result.acknowledged) {
+		return res.send(message.SUCCESSFULL_PET_ADDED + " con id: " + result.insertedId);
+	  } else {
+		return res.status(500).send(errors.REQUEST_ERROR);
+	  }
 	} catch (error) {
-		console.error(error);
+	  console.error(error);
+	  return res.status(500).send(errors.REQUEST_ERROR);
 	}
-});
+  });
 
 router.put("/updatePet/:id", async (req, res) => {
 	try {

@@ -63,21 +63,25 @@ async function getPetsByProvinceCordoba() {
 async function addPet(req, res) {
 	try {
 		const { name, specie, race, gender, age, description, province } = req.body;
-		if (name && specie && race && gender && age && description && province) {
-			const newPet = {
-				name,
-				specie,
-				race,
-				gender,
-				age,
-				description,
-				province,
-				status: "available",
-			};
-			return pets.addPet(newPet);
+
+		if (!(name && specie && race && gender && age && description && province)) {
+			throw new Error("Faltan campos obligatorios");
 		}
+
+		const newPet = {
+			name,
+			specie,
+			race,
+			gender,
+			age,
+			description,
+			province,
+			status: "available",
+		};
+
+		return pets.addPet(newPet);
 	} catch (error) {
-		throw new Error("Bad Request: Missing required fields" + error);
+		throw error;
 	}
 }
 
@@ -111,9 +115,9 @@ async function deletePet(req, res) {
 			if (deletedPet) {
 				return res.json(deletedPet);
 			}
-		} else{
-      throw new Error("Pet doesn't exist");
-    }
+		} else {
+			throw new Error("Pet doesn't exist");
+		}
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -138,5 +142,5 @@ module.exports = {
 	updatePet,
 	deletePet,
 	getAdoptables,
-	getAdopciones
+	getAdopciones,
 };
