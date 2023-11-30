@@ -4,10 +4,6 @@ async function getAllUsers(pageSize, page) {
 	return users.getAllUsers(pageSize, page);
 }
 
-async function getUser(id) {
-	return users.getUser(id);
-}
-
 async function addUser(user) {
   return users.addUser(user);
 }
@@ -22,4 +18,4 @@ async function generateAuthToken(user) {
 }
 
 
-module.exports = { addUser, getUser, findByCredentials, generateAuthToken, getAllUsers };
+module.exports = { addUser, findByCredentials, generateAuthToken, getAllUsers };

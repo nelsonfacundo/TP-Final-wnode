@@ -19,21 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-	try {
-		const userId = req.params.id;
-		const user = await controller.getUser(userId);
-		if (user) {
-			return res.json(user);
-		} else {
-			return res.status(404).json({ error: "User not found" });
-		}
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
 router.post("/register", async (req, res) => {
   try {
     const newUser = schemaUser.validateUser(req.body);

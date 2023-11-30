@@ -9,7 +9,7 @@ async function dataAccess() {
   return await conn.dataAccess(constants.DATABASE, constants.USERS);
 }
 
-// http://localhost:5000/api/users/
+// http://localhost:5000/api/pets/
 async function getAllUsers(pageSize, page) {
   const collection = await dataAccess();
   const totalUsers = await collection.countDocuments();
@@ -57,7 +57,6 @@ async function getUserByEmail(email) {
   return !!user;
 }
 
-// http://localhost:5000/api/users/6568e766143e765fd1577345
 async function getUser(id) {
   const collection = await dataAccess();
   const user = await collection.findOne({ _id: new ObjectId(id) });
