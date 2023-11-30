@@ -47,10 +47,11 @@ async function getAdopciones(pageSize, page) {
 }
 
 // http://localhost:3000/api/pets/654d0accb9a1d6ef179b2668
-async function getPet(id) {
-	const collection = await dataAccess();
-	const pet = await collection.findOne({ _id: new ObjectId(id) });
-	return pet;
+async function getPet(id){
+    const collection = await dataAccess();
+    const pet = await collection
+                        .findOne({_id:new ObjectId(id)});    
+    return pet;
 }
 
 //http://localhost:3000/api/pets/addPet
@@ -85,12 +86,12 @@ async function deletePet(id) {
 	return result;
 }
 
+
+  
 module.exports = {
-	getAllPets,
-	getPet,
-	addPet,
-	updatePet,
-	deletePet,
-	getAdoptables,
-	getAdopciones
+    getAllPets,
+    getPet,
+    addPet,
+    updatePet,
+    deletePet
 };
