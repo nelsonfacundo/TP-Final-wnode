@@ -13,7 +13,7 @@ async function getAllPets(pageSize, page) {
 
 	const pets = await collection
 		.find({})
-		.sort({ _id: -1 }) 
+		.sort({ _id: -1 })
 		.limit(pageSize)
 		.skip(pageSize * page)
 		.toArray();
@@ -47,11 +47,10 @@ async function getAdopciones(pageSize, page) {
 }
 
 // http://localhost:3000/api/pets/654d0accb9a1d6ef179b2668
-async function getPet(id){
-    const collection = await dataAccess();
-    const pet = await collection
-                        .findOne({_id:new ObjectId(id)});    
-    return pet;
+async function getPet(id) {
+	const collection = await dataAccess();
+	const pet = await collection.findOne({ _id: new ObjectId(id) });
+	return pet;
 }
 
 //http://localhost:3000/api/pets/addPet
@@ -60,8 +59,7 @@ async function addPet(pet) {
 	const collection = await dataAccess();
 	const result = await collection.insertOne(pet);
 	return result;
-  }
-  
+}
 
 // http://localhost:3000/api/pets/updatePet/654d24c88350cd054198ccc3
 // Función para crear una mascota
@@ -86,12 +84,10 @@ async function deletePet(id) {
 	return result;
 }
 
-
-  
 module.exports = {
-    getAllPets,
-    getPet,
-    addPet,
-    updatePet,
-    deletePet
+	getAllPets,
+	getPet,
+	addPet,
+	updatePet,
+	deletePet,
 };

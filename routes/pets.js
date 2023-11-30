@@ -49,19 +49,21 @@ router.get("/adopciones/", async (req, res) => {
 
 router.post("/addPet", async (req, res) => {
 	try {
-	  schemaPets.validatePets(req.body);
-	  const result = await controller.addPet(req, res);
-	  
-	  if (result.acknowledged) {
-		return res.send(message.SUCCESSFULL_PET_ADDED + " con id: " + result.insertedId);
-	  } else {
-		return res.status(500).send(errors.REQUEST_ERROR);
-	  }
+		schemaPets.validatePets(req.body);
+		const result = await controller.addPet(req, res);
+
+		if (result.acknowledged) {
+			return res.send(
+				message.SUCCESSFULL_PET_ADDED + " con id: " + result.insertedId
+			);
+		} else {
+			return res.status(500).send(errors.REQUEST_ERROR);
+		}
 	} catch (error) {
-	  console.error(error);
-	  return res.status(500).send(errors.REQUEST_ERROR);
+		console.error(error);
+		return res.status(500).send(errors.REQUEST_ERROR);
 	}
-  });
+});
 
 router.put("/updatePet/:id", async (req, res) => {
 	try {
@@ -91,20 +93,19 @@ router.delete("/deletePet/:id", async (req, res) => {
 	}
 });
 
-
 router.get("/:id", async (req, res) => {
-    try {
-      const petId = req.params.id;
-      const pet = await controller.getPet(petId);
-      if (pet) {
-        return res.json(pet);
-      } else {
-        return res.status(404).json({ error: "Pet not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-  
+	try {
+		const petId = req.params.id;
+		const pet = await controller.getPet(petId);
+		if (pet) {
+			return res.json(pet);
+		} else {
+			return res.status(404).json({ error: "Pet not found" });
+		}
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 module.exports = router;
