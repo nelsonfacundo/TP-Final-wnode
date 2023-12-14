@@ -37,7 +37,7 @@ async function getAdoptables(pageSize, page) {
 // http://localhost:3000/api/pets/adopciones/
 async function getAdopciones(pageSize, page) {
 	const collection = await dataAccess();
-	const totalPets = await collection.countDocuments({ status: "available" });
+	const totalPets = await collection.countDocuments({ status: { $ne: "available" } });
 
 	const pets = await collection
 		.find({ status: { $ne: "available" } })
