@@ -91,7 +91,7 @@ router.delete("/deletePet/:id", authenticateToken, async (req, res) => {
 	}
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",authenticateToken, async (req, res) => {
 	try {
 		const petId = req.params.id;
 		const pet = await controller.getPet(petId);
