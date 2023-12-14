@@ -4,8 +4,10 @@ const controller = require("../controllers/pets");
 const schemaPets = require("../schemas/validatePets");
 const message = require("../lib/messages");
 const errors = require("../lib/errors");
+const authenticateToken = require('../middleware/authenticateToken'); 
 
-router.get("/", async (req, res) => {
+
+router.get("/", authenticateToken, async (req, res) => {
 	try {
 		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
 		const page = req.query.page ? parseInt(req.query.page) : 0;
@@ -33,7 +35,7 @@ router.get("/adoptables/", async (req, res) => {
 	}
 });
 
-router.get("/adopciones/", async (req, res) => {
+router.get("/adopciones/", authenticateToken, async (req, res) => {
 	try {
 		const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
 		const page = req.query.page ? parseInt(req.query.page) : 0;
@@ -47,7 +49,7 @@ router.get("/adopciones/", async (req, res) => {
 	}
 });
 
-router.post("/addPet", async (req, res) => {
+router.post("/addPet", authenticateToken, async (req, res) => {
 	try {
 		schemaPets.validatePets(req.body);
 		const result = await controller.addPet(req, res);
@@ -65,7 +67,7 @@ router.post("/addPet", async (req, res) => {
 	}
 });
 
-router.put("/updatePet/:id", async (req, res) => {
+router.put("/updatePet/:id", authenticateToken, async (req, res) => {
 	try {
 		schemaPets.validatePets(req.body);
 		const result = await controller.updatePet(req, res);
@@ -80,7 +82,7 @@ router.put("/updatePet/:id", async (req, res) => {
 	}
 });
 
-router.delete("/deletePet/:id", async (req, res) => {
+router.delete("/deletePet/:id", authenticateToken, async (req, res) => {
 	// TODO: no estamos mostrando el mensaje de exito cuando se borra una mascota
 	try {
 		const result = await controller.deletePet(req, res);

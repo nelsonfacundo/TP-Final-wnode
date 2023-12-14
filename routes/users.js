@@ -4,8 +4,9 @@ const controller = require("../controllers/users");
 const schemaUser = require("../schemas/validateUser");
 const message = require("../lib/messages");
 const errors = require("../lib/errors");
+const authenticateToken = require('../middleware/authenticateToken'); 
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken,async (req, res) => {
   try {
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
     const page = req.query.page ? parseInt(req.query.page) : 0;
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateToken, async (req, res) => {
 	try {
 		const userId = req.params.id;
 		const user = await controller.getUser(userId);
