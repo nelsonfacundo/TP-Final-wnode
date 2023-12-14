@@ -17,7 +17,7 @@ router.get("/", authenticateToken, async (req, res) => {
 		return res.json({ pets, totalPets });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
+		return res.status(500).json({ error: "Internal Server Error"+": "+error.message });
 	}
 });
 
@@ -31,7 +31,7 @@ router.get("/adoptables/", async (req, res) => {
 		return res.json({ pets, totalPets });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
+		return res.status(500).json({ error: "Internal Server Error"+": "+error.message });
 	}
 });
 
@@ -45,7 +45,7 @@ router.get("/adopciones/", authenticateToken, async (req, res) => {
 		return res.json({ pets, totalPets });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
+		return res.status(500).json({ error: "Internal Server Error"+": "+error.message });
 	}
 });
 
@@ -58,12 +58,10 @@ router.post("/addPet", authenticateToken, async (req, res) => {
 			return res.send(
 				message.SUCCESSFULL_PET_ADDED + " con id: " + result.insertedId
 			);
-		} else {
-			return res.status(500).send(errors.REQUEST_ERROR);
 		}
 	} catch (error) {
 		console.error(error);
-		return res.status(500).send(errors.REQUEST_ERROR);
+		return res.status(500).send(errors.REQUEST_ERROR+": "+error.message);
 	}
 });
 
@@ -73,9 +71,7 @@ router.put("/updatePet/:id", authenticateToken, async (req, res) => {
 		const result = await controller.updatePet(req, res);
 		if (result.lastErrorObject && result.lastErrorObject.n > 0) {
 			return res.send(message.SUCCESSFULL_PET_UPLOAD);
-		} else {
-			return res.status(500).send(errors.REQUEST_ERROR);
-		}
+		} 
 	} catch (error) {
 		console.error(error);
 		return res.status(500).send({ error: error.message });
@@ -106,7 +102,7 @@ router.get("/:id", async (req, res) => {
 		}
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: "Internal Server Error" });
+		return res.status(500).json({ error: "Internal Server Error"+": "+error.message });
 	}
 });
 

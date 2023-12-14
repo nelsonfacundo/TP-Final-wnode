@@ -46,14 +46,16 @@ async function updatePet(req, res) {
 	try {
 		const petId = req.params.id;
 		const { name, specie, race, gender, age, description, province } = req.body;
-		if (name && specie && race && gender && age && description && province) {
-			const pet = { name, specie, race, gender, age, description, province };
-			const updatedPet = await pets.updatePet(petId, pet);
-			if (updatedPet) {
-				return updatedPet;
-			}
-		} else {
-			return null;
+		console.log(petId);
+		if (petId && name && specie && race && gender && age && description && province) {
+		}  else	{
+			throw error;
+		}
+
+		const pet = { name, specie, race, gender, age, description, province };
+		const updatedPet = await pets.updatePet(petId, pet);
+		if (updatedPet) {
+			return updatedPet;
 		}
 	} catch (error) {
 		console.error(error);

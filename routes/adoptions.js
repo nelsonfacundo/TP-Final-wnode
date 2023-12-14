@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/adoptions.js');
+const authenticateToken = require('../middleware/authenticateToken'); 
 
 /*POST http://localhost:3000/api/adoptions/add-adoption */
 router.post('/add-adoption', authenticateToken, async (req, res) => {
